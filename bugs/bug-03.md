@@ -1,16 +1,16 @@
-# BUG-03: POST /api/books буруу JSON биетэй хүсэлтэд 400 биш STATUS_CODE алдаа буцаадаг
+# BUG-03: POST /api/books буруу JSON биетэй хүсэлтэд 400 биш 200 OK буцаадаг
 
-Орчин: Уншлагын жагсаалт v2.0, curl.exe, Windows, 2026-10-17
+Орчин: Уншлагын жагсаалт v2.0, curl.exe, Windows 11, Node v24.21.0, 2026-10-17 (evidence 2026-11-19-нд дахин авсан)
 Урьдчилсан нөхцөл: node app.js-ийг шинээр асаасан (анхны 3 ном)
 
 ## Дахин гаргах алхам
 1. `body.json` файлд буруу JSON бичнэ: `{"title": "Test", "author": `
 2. Дараах командыг ажиллуулна:
    `curl.exe -i -X POST http://localhost:3000/api/books -H "Content-Type: application/json" --data-binary "@body.json"`
-3. Хариуны эхний мөрийг (HTTP/1.1 ...) харна.
+3. Хариуны эхний мөрийг (HTTP/1.1 ...) болон биеийг харна.
 
 Хүлээгдэж байсан: «Буруу JSON биетэй POST хүсэлтэд 400 алдаа буцаана» (спецификаци).
-Бодит үр дүн: <the exact status line you saw, and anything else odd>
-Ноцтой байдал: <Major / Minor, with a reason>
-Хавсралт: evidence/bug-03-curl.txt
+Бодит үр дүн: `HTTP/1.1 200 OK`, бие нь `{"result":"OK"}`. Сервер JSON задлах алдааг нууж, амжилттай мэт хариулж байна. Ном нэмэгдээгүй ч клиент амжилттай гэж ойлгоно.
+Ноцтой байдал: Major (API-ийн гэрээ зөрчигдөж, клиент алдааг илрүүлэх боломжгүй; өгөгдөл алдагдсан ч амжилттай гэж харагдана)
+Хавсралт: [../evidence/bug-03-curl.txt](../evidence/bug-03-curl.txt)
 Олдсон аялал: Saboteur
